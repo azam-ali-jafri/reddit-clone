@@ -5,6 +5,7 @@ import Logo from "../assest/logo.svg";
 import Image from "next/image";
 import { buttonVariants } from "./ui/Button";
 import { getAuthSession } from "@/lib/auth";
+import UserAccountNav from "./UserAccountNav";
 
 const Navbar = async () => {
   const session = await getAuthSession();
@@ -19,9 +20,13 @@ const Navbar = async () => {
             Reddit
           </p>
         </Link>
-        <Link href="/sign-in" className={buttonVariants()}>
-          Sign In
-        </Link>
+        {session?.user ? (
+          <UserAccountNav user={session.user} />
+        ) : (
+          <Link href="/sign-in" className={buttonVariants()}>
+            Sign In
+          </Link>
+        )}
       </div>
     </div>
   );
