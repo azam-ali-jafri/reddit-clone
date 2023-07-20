@@ -17,7 +17,7 @@ const SignIn: FC = () => {
 
         <UserAuthForm />
 
-        <p className="px-8 text-center text-sm text-zinc-700">
+        {/* <p className="px-8 text-center text-sm text-zinc-700">
           New to Reddit Clone?{" "}
           <Link
             href="/sign-up"
@@ -25,7 +25,7 @@ const SignIn: FC = () => {
           >
             Sign Up
           </Link>
-        </p>
+        </p> */}
       </div>
     </div>
   );
