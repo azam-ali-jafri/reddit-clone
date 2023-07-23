@@ -4,12 +4,15 @@ import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { CreateSubredditPayload } from "@/lib/validators/subreddit";
+import { toast } from "@/hooks/use-toast";
+import { useCustomToast } from "@/hooks/use-custom-toast";
 
 const page = () => {
   const [input, setinput] = useState<string>("");
   const router = useRouter();
+  const { loginToast } = useCustomToast();
 
   const { mutate: createCommunity, isLoading } = useMutation({
     mutationFn: async () => {
@@ -19,11 +22,43 @@ const page = () => {
       const { data } = await axios.post("/api/subreddit", payload);
       return data as string;
     },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 409) {
+          toast({
+            title: "Subreddit already exist",
+            description: "Please choose different subreddit name.",
+            variant: "destructive",
+          });
+        }
+
+        if (error.response?.status === 422) {
+          toast({
+            title: "Invalid subreddit name",
+            description: "Please choose a name between 3 & 21 characters.",
+            variant: "destructive",
+          });
+        }
+
+        if (error.response?.status === 401) {
+          return loginToast();
+        }
+      }
+
+      toast({
+        title: "There was an error",
+        description: "Could not create subreddit",
+        variant: "destructive",
+      });
+    },
+    onSuccess: (data) => {
+      router.push(`/r/${data}`);
+    },
   });
 
   return (
     <div className="container flex items-center h-full max-w-3xl mx-auto">
-      <div className="relative bg-white p-4 h-fit rounded-lg space-y-6">
+      <div className="relative bg-white p-4 h-fit md:w-full rounded-lg space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">Create a community</h1>
         </div>
