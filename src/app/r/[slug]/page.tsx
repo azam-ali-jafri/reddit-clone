@@ -1,4 +1,5 @@
 import CreatePost from "@/components/CreatePost";
+import PostFeed from "@/components/PostFeed";
 import { PAGINATION_RESULTS } from "@/config";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -40,6 +41,7 @@ const page = async ({ params }: PageProps) => {
         r/{subreddit.name}
       </h1>
       <CreatePost session={session} />
+      <PostFeed initialPosts={subreddit.posts} subredditName={subreddit.name} />
     </>
   );
 };
