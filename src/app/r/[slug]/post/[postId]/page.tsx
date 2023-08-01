@@ -1,3 +1,4 @@
+import CommentSection from "@/components/CommentSection";
 import EditorOutput from "@/components/EditorOutput";
 import PostVoteServer from "@/components/post-vote/PostVoteServer";
 import { buttonVariants } from "@/components/ui/Button";
@@ -75,7 +76,10 @@ const page = async ({ params }: PageProps) => {
             fallback={
               <Loader2 className="h-5 w-5 animate-spin text-zinc-500" />
             }
-          ></Suspense>
+          >
+            {/* @ts-expect-error */}
+            <CommentSection postId={post?.id ?? cachedPost.id} />
+          </Suspense>
         </div>
       </div>
     </div>
