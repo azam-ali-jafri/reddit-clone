@@ -27,8 +27,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
     ["infinite-scroll"],
     async ({ pageParam = 1 }) => {
       const query =
-        `/api/posts?limit=${PAGINATION_RESULTS}&page=${pageParam}` +
-        (!!subredditName ? `&subredditName=${subredditName}` : "");
+        `/api/posts?limit=${PAGINATION_RESULTS}&page=${pageParam}` + (!!subredditName ? `&subredditName=${subredditName}` : "");
 
       const { data } = await axios.get(query);
 
@@ -59,14 +58,13 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
           return acc;
         }, 0);
 
-        const currentVote = post.votes.find(
-          (vote) => vote.userId === session?.user.id
-        );
+        const currentVote = post.votes.find((vote) => vote.userId === session?.user.id);
 
         if (index === posts.length - 1) {
           return (
             <li key={post.id} ref={ref}>
               <Post
+                key={post.id}
                 votesAmount={votesCount}
                 currentVote={currentVote}
                 subredditName={post.subreddit.name}
@@ -78,6 +76,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
         } else {
           return (
             <Post
+              key={post.id}
               votesAmount={votesCount}
               currentVote={currentVote}
               subredditName={post.subreddit.name}
