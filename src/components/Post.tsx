@@ -19,49 +19,30 @@ interface PostProps {
   currentVote?: PartialVote;
 }
 
-const Post: FC<PostProps> = ({
-  subredditName,
-  post,
-  commentCount,
-  votesAmount,
-  currentVote,
-}) => {
+const Post: FC<PostProps> = ({ subredditName, post, commentCount, votesAmount, currentVote }) => {
   const postRef = useRef<HTMLDivElement>(null);
   return (
     <div className="rounded-mg bg-white shadow">
       <div className="px-6 py-4 flex justify-between">
-        <PostVoteClient
-          initialVoteAmount={votesAmount}
-          postId={post.id}
-          initialVote={currentVote?.type}
-        />
+        <PostVoteClient initialVoteAmount={votesAmount} postId={post.id} initialVote={currentVote?.type} />
         <div className="w-0 flex-1">
           <div className="max-h-40 mt-1 text-xs text-gray-500">
             {subredditName ? (
               <>
-                <a
-                  className="underline text-zinc-900 text-sm underline-offset-2"
-                  href={`/r/${subredditName}`}
-                >
+                <a className="underline text-zinc-900 text-sm underline-offset-2" href={`/r/${subredditName}`}>
                   r/{subredditName}
                 </a>
                 <span className="px-1">•</span>
               </>
             ) : null}
-            <span>Posted by u/{post.author.name}</span>{" "}
-            {formatTimeToNow(new Date(post.createdAt))}
+            <span>Posted by u/{post.author.username}</span> {formatTimeToNow(new Date(post.createdAt))}
           </div>
 
           <a href={`/r/${subredditName}/post/${post.id}`}>
-            <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">
-              {post.title}
-            </h1>
+            <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">{post.title}</h1>
           </a>
 
-          <div
-            className="relative text-sm max-h-40 w-full overflow-clip"
-            ref={postRef}
-          >
+          <div className="relative text-sm max-h-40 w-full overflow-clip" ref={postRef}>
             <EditorOutput content={post.content} />
             {postRef.current?.clientHeight === 160 ? (
               <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"></div>
@@ -71,10 +52,7 @@ const Post: FC<PostProps> = ({
       </div>
 
       <div className="bg-gray-50 text-sm z-20 p-4 sm:px-6">
-        <a
-          className="w-fit flex items-center gap-2"
-          href={`/r/${subredditName}/post/${post.id}`}
-        >
+        <a className="w-fit flex items-center gap-2" href={`/r/${subredditName}/post/${post.id}`}>
           <MessageSquare className="h-4 w-4" /> {commentCount} comments
         </a>
       </div>

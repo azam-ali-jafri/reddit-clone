@@ -25,7 +25,7 @@ const page = () => {
     onError: (error) => {
       if (error instanceof AxiosError) {
         if (error.response?.status === 409) {
-          toast({
+          return toast({
             title: "Subreddit already exist",
             description: "Please choose different subreddit name.",
             variant: "destructive",
@@ -33,7 +33,7 @@ const page = () => {
         }
 
         if (error.response?.status === 422) {
-          toast({
+          return toast({
             title: "Invalid subreddit name",
             description: "Please choose a name between 3 & 21 characters.",
             variant: "destructive",
@@ -45,7 +45,7 @@ const page = () => {
         }
       }
 
-      toast({
+      return toast({
         title: "There was an error",
         description: "Could not create subreddit",
         variant: "destructive",
@@ -66,30 +66,18 @@ const page = () => {
 
         <div>
           <p className="text-lg font-medium">Name</p>
-          <p className="text-xs pb-2">
-            Community name including capitalization cannot be changed.
-          </p>
+          <p className="text-xs pb-2">Community name including capitalization cannot be changed.</p>
 
           <div className="relative">
-            <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400">
-              r/
-            </p>
-            <Input
-              value={input}
-              onChange={(e) => setinput(e.target.value)}
-              className="pl-6"
-            />
+            <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400">r/</p>
+            <Input value={input} onChange={(e) => setinput(e.target.value)} className="pl-6" />
           </div>
         </div>
         <div className="flex justify-end gap-4">
           <Button variant="subtle" onClick={() => router.back()}>
             Cancel
           </Button>
-          <Button
-            isLoading={isLoading}
-            disabled={input.length === 0}
-            onClick={() => createCommunity()}
-          >
+          <Button isLoading={isLoading} disabled={input.length === 0} onClick={() => createCommunity()}>
             Create Community
           </Button>
         </div>
