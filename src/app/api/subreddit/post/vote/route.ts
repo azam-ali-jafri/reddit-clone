@@ -63,6 +63,8 @@ export async function PATCH(req: Request) {
         },
       });
 
+      // recount votes
+
       const voteCount = post.votes.reduce((acc, vote) => {
         if (vote.type === "UP") return acc + 1;
         else if (vote.type === "DOWN") return acc - 1;
@@ -92,6 +94,8 @@ export async function PATCH(req: Request) {
         postId,
       },
     });
+
+    // recount votes
 
     const voteCount = post.votes.reduce((acc, vote) => {
       if (vote.type === "UP") return acc + 1;
