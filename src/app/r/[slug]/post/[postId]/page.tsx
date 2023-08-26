@@ -21,9 +21,7 @@ export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 const page = async ({ params }: PageProps) => {
-  const cachedPost = (await redis.hgetall(
-    `post:${params.postId}`
-  )) as CachedPost;
+  const cachedPost = (await redis.hgetall(`post:${params.postId}`)) as CachedPost;
 
   let post: (Post & { votes: Vote[]; author: User }) | null = null;
 
@@ -66,17 +64,11 @@ const page = async ({ params }: PageProps) => {
             Posted by u/{post?.author.username ?? cachedPost.authorUsername}{" "}
             {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
           </p>
-          <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900">
-            {post?.title ?? cachedPost.title}
-          </h1>
+          <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900">{post?.title ?? cachedPost.title}</h1>
 
           <EditorOutput content={post?.content ?? cachedPost.content} />
 
-          <Suspense
-            fallback={
-              <Loader2 className="h-5 w-5 animate-spin text-zinc-500" />
-            }
-          >
+          <Suspense fallback={<Loader2 className="h-5 w-5 animate-spin text-zinc-500" />}>
             {/* @ts-expect-error */}
             <CommentSection postId={post?.id ?? cachedPost.id} />
           </Suspense>

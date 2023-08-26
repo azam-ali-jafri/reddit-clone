@@ -42,10 +42,7 @@ export async function PATCH(req: Request) {
       if (existingVote.type === voteType) {
         await db.vote.delete({
           where: {
-            userId_postId: {
-              postId,
-              userId: session.user.id,
-            },
+            id: existingVote.id,
           },
         });
 
@@ -53,10 +50,7 @@ export async function PATCH(req: Request) {
       }
       await db.vote.update({
         where: {
-          userId_postId: {
-            userId: session.user.id,
-            postId,
-          },
+          id: existingVote.id,
         },
         data: {
           type: voteType,
@@ -118,8 +112,7 @@ export async function PATCH(req: Request) {
 
     return new Response("success");
   } catch (error) {
-    if (error instanceof z.ZodError)
-      return new Response("Invalid request data", { status: 422 });
+    if (error instanceof z.ZodError) return new Response("Invalid request data", { status: 422 });
     return new Response("Could not register vote", { status: 500 });
   }
 }

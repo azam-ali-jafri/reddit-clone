@@ -13,7 +13,6 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
   const comments = await db.comment.findMany({
     where: {
       postId,
-      replyToId: null,
     },
     include: {
       author: true,
@@ -37,18 +36,13 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
         {comments
           .filter((comment) => !comment.replyToId)
           .map((topLevelComment) => {
-            const topLevelCommentVotesCount = topLevelComment.votes.reduce(
-              (acc, vote) => {
-                if (vote.type === "UP") return acc + 1;
-                else if (vote.type === "DOWN") return acc - 1;
-                return acc;
-              },
-              0
-            );
+            const topLevelCommentVotesCount = topLevelComment.votes.reduce((acc, vote) => {
+              if (vote.type === "UP") return acc + 1;
+              else if (vote.type === "DOWN") return acc - 1;
+              return acc;
+            }, 0);
 
-            const topLevelCommentVote = topLevelComment.votes.find(
-              (vote) => vote.userId === session?.user.id
-            );
+            const topLevelCommentVote = topLevelComment.votes.find((vote) => vote.userId === session?.user.id);
 
             return (
               <div key={topLevelComment.id} className="flex flex-col">
@@ -70,21 +64,11 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
                     return acc;
                   }, 0);
 
-                  const replyVote = reply.votes.find(
-                    (vote) => vote.userId === session?.user.id
-                  );
+                  const replyVote = reply.votes.find((vote) => vote.userId === session?.user.id);
 
                   return (
-                    <div
-                      key={reply.id}
-                      className="ml-2 py-2 pl-4 border-l-2 border-zinc-200"
-                    >
-                      <PostComment
-                        comment={reply}
-                        currentVote={replyVote}
-                        votesAmount={replyVotesAmount}
-                        postId={postId}
-                      />
+                    <div key={reply.id} className="ml-2 py-2 pl-4 border-l-2 border-zinc-200">
+                      <PostComment comment={reply} currentVote={replyVote} votesAmount={replyVotesAmount} postId={postId} />
                     </div>
                   );
                 })}

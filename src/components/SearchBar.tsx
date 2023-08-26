@@ -74,7 +74,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
               {queryResult?.map((subreddit) => (
                 <CommandItem
                   onSelect={(e) => {
-                    router.push(`/r/${e}`);
+                    router.push(`/r/${subreddit.name}`);
                     router.refresh();
                   }}
                   key={subreddit.id}
