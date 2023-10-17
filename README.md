@@ -1,40 +1,51 @@
-# Reddit Web Clone
+# Reddit Clone
 
-## Run Locally
+![Img](https://res.cloudinary.com/dg18lu61g/image/upload/v1697530650/projects%20thumbnails/Screenshot_2023-10-17_at_13-47-15_Reddit_Clone_hmfk7q.png)
 
-Clone the project
+### Features:
+- Authentication via next-auth.
+- Community & post creation.
+- Post & comments upvotes/downvotes.
+- Personalized & general feed.
+- Redis cache for imporving performance.
+- Prisma to interact with database.
+- Uploadthing for storing images.
 
-```bash
-  git clone https://github.com/azam-ali-jafri/reddit-clone.git
+## Installation
+
+#### Cloning the repository
+
+```shell
+git clone https://github.com/azam-ali-jafri/reddit-clone.git
 ```
 
-Go to the project directory
+#### Install packages
 
-```bash
-  cd reddit-clone
+```shell
+npm install or yarn install
 ```
 
-Install dependencies
+#### Setup .env file
 
-```bash
-  npm install
+```js
+DATABASE_URL=
+NEXTAUTH_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+UPLOADTHING_SECRET=
+UPLOADTHING_APP_ID=
+REDIS_URL=
+REDIS_SECRET=
+
 ```
 
-Start the server
-
-```bash
-  npm run dev
+#### Setup prisma
+Add your database url then execute this command (I used mongoDB)
+```shell
+npx prisma db push
 ```
 
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`DATABASE_URL`
-`NEXTAUTH_SECRET`
-`GOOGLE_CLIENT_ID`
-`GOOGLE_CLIENT_SECRET`
-`UPLOADTHING_SECRET`
-`UPLOADTHING_APP_ID`
-`REDIS_URL`
-`REDIS_SECRET`
+#### Start the app
+```shell
+npm run dev
+```
